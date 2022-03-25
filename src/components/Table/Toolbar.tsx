@@ -14,10 +14,11 @@ import { Stack } from '@mui/material';
 
 interface CustomToolbarProps {
   apiRef: GridApiRef;
+  columns: any;
 }
 
 export default function CustomToolbar(props: CustomToolbarProps) {
-  const { apiRef } = props;
+  const { apiRef, columns } = props;
 
   const handleClick = () => {
     const id = randomId();
@@ -28,7 +29,8 @@ export default function CustomToolbar(props: CustomToolbarProps) {
       apiRef.current.scrollToIndexes({
         rowIndex: apiRef.current.getRowsCount() - 1,
       });
-      apiRef.current.setCellFocus(id, 'name');
+      apiRef.current.setPage(apiRef.current.state.pagination.pageCount);
+      apiRef.current.setCellFocus(id, columns[0].field || '');
     });
   };
 

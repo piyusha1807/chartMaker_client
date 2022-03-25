@@ -12,7 +12,7 @@ class AxiosClass {
   constructor(baseURL: string) {
     this.Axios = axios.create({
       baseURL,
-      timeout: 1000,
+      timeout: 2000,
     });
     this.setUpInterceptors();
   }

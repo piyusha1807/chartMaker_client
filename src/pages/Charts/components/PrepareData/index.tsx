@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Tooltip } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router';
 import EditIcon from '@mui/icons-material/Edit';
@@ -116,13 +116,21 @@ const PrepareData = (props: any) => {
         if (isInEditMode) {
           return [
             <GridActionsCellItem
-              icon={<SaveIcon />}
+              icon={
+                <Tooltip title="Save">
+                  <SaveIcon />
+                </Tooltip>
+              }
               label="Save"
               onClick={handleSaveClick(id)}
               color="primary"
             />,
             <GridActionsCellItem
-              icon={<CancelIcon />}
+              icon={
+                <Tooltip title="Cancel">
+                  <CancelIcon />
+                </Tooltip>
+              }
               label="Cancel"
               className={classes.textPrimary}
               onClick={handleCancelClick(id)}
@@ -133,14 +141,22 @@ const PrepareData = (props: any) => {
 
         return [
           <GridActionsCellItem
-            icon={<EditIcon />}
+            icon={
+              <Tooltip title="Edit">
+                <EditIcon />
+              </Tooltip>
+            }
             label="Edit"
             className={classes.textPrimary}
             onClick={handleEditClick(id)}
             color="inherit"
           />,
           <GridActionsCellItem
-            icon={<DeleteIcon />}
+            icon={
+              <Tooltip title="Delete">
+                <DeleteIcon />
+              </Tooltip>
+            }
             label="Delete"
             onClick={handleDeleteClick(id)}
             color="inherit"

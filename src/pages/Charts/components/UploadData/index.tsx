@@ -45,12 +45,8 @@ const UploadData = (props: any) => {
   const navigate = useNavigate();
 
   const [uploadOpt, setUploadOpt] = useState(upload?.uploadOpt || 'upload');
-  const [selectedFile, setSelectedFile] = useState<any>(
-    upload?.selectedFile || {}
-  );
-  const [isFilePicked, setIsFilePicked] = useState(
-    upload?.isFilePicked || false
-  );
+  const [selectedFile, setSelectedFile] = useState<any>(upload?.selectedFile || {});
+  const [isFilePicked, setIsFilePicked] = useState(upload?.isFilePicked || false);
   const [csvData, setCsvData] = useState<any>(upload?.csvData || '');
   const [sheetNames, setSheetNames] = useState<any>([]);
   const [sheets, setSheets] = useState<any>({});
@@ -101,9 +97,7 @@ const UploadData = (props: any) => {
     setCurrSheet(value);
   };
 
-  const handleTextChange = (e: {
-    target: { value: React.SetStateAction<string> },
-  }) => {
+  const handleTextChange = (e: { target: { value: React.SetStateAction<string> } }) => {
     setCsvData(e.target.value);
   };
 
@@ -113,7 +107,7 @@ const UploadData = (props: any) => {
         uploadOpt,
         selectedFile,
         isFilePicked,
-        csvData,
+        csvData: csvData.replace(/\n*$/, ''),
       },
     });
     navigate('/create/chart/new/prepare');
@@ -132,16 +126,8 @@ const UploadData = (props: any) => {
             scrollButtons="auto"
             aria-label="Upload options"
           >
-            <Tab
-              icon={<CloudUploadIcon />}
-              label="XLSX/CSV upload"
-              value="upload"
-            />
-            <Tab
-              icon={<GridOnIcon />}
-              label="Connect data table"
-              value="connect"
-            />
+            <Tab icon={<CloudUploadIcon />} label="XLSX/CSV upload" value="upload" />
+            <Tab icon={<GridOnIcon />} label="Connect data table" value="connect" />
           </Tabs>
         </Box>
 
@@ -149,9 +135,7 @@ const UploadData = (props: any) => {
           <Grid container>
             <Grid item sm={12} md={4}>
               <Box sx={{ margin: '1rem' }}>
-                <Typography variant="body1">
-                  Upload CSV or Excel spreadsheets
-                </Typography>
+                <Typography variant="body1">Upload CSV or Excel spreadsheets</Typography>
                 <br />
                 <label htmlFor="contained-button-file">
                   <Input
@@ -160,23 +144,15 @@ const UploadData = (props: any) => {
                     type="file"
                     onChange={changeHandler}
                   />
-                  <Button
-                    variant="outlined"
-                    startIcon={<FileUploadIcon />}
-                    component="span"
-                  >
+                  <Button variant="outlined" startIcon={<FileUploadIcon />} component="span">
                     Upload
                   </Button>
                 </label>
 
                 {isFilePicked ? (
-                  <Typography variant="body2">
-                    Filename: {selectedFile.name}
-                  </Typography>
+                  <Typography variant="body2">Filename: {selectedFile.name}</Typography>
                 ) : (
-                  <Typography variant="body2">
-                    Select a file to show details
-                  </Typography>
+                  <Typography variant="body2">Select a file to show details</Typography>
                 )}
               </Box>
               <Box sx={{ margin: '1rem' }}>

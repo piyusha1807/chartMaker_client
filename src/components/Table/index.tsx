@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  DataGridPro,
-  GridColDef as GridColDefType,
-  GridOverlay,
-} from '@mui/x-data-grid-pro';
+import { DataGridPro, GridColDef as GridColDefType, GridOverlay } from '@mui/x-data-grid-pro';
 import { Box } from '@mui/material';
 import Pagination from './Pagination';
 import CustomToolbar from './Toolbar';
@@ -48,7 +44,7 @@ function DataGridTable({
             pageSize,
             rowsPerPageOptions,
           },
-          toolbar: { apiRef },
+          toolbar: { apiRef, columns },
         }}
       />
     </Box>

@@ -6,6 +6,7 @@ import _ from 'lodash';
 import Plot from 'react-plotly.js';
 import Structure from './Structure';
 import Common from './Common';
+import '../../styles/configChart.scss';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -104,7 +105,7 @@ const ConfigChart = (props: any) => {
   return (
     <Box>
       <Grid container spacing={{ xs: 1, sm: 2, md: 2 }} height="68vh">
-        <Grid item sm={12} md={8}>
+        <Grid item sm={12} md={8} className="chart-viewer">
           <Plot data={trace} layout={layout} config={config} />
         </Grid>
 
