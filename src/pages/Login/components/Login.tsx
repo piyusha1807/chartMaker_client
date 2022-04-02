@@ -35,13 +35,8 @@ export default function Login() {
     <RootStyle title="Login">
       <AuthLayout>
         Don’t have an account? &nbsp;
-        <Link
-          underline="none"
-          variant="subtitle2"
-          component={RouterLink}
-          to="/register"
-        >
-          Get started
+        <Link underline="none" variant="subtitle2" component={RouterLink} to="/register">
+          Register
         </Link>
       </AuthLayout>
 
@@ -51,9 +46,7 @@ export default function Login() {
             <Typography variant="h4" gutterBottom>
               Sign in to ChartMaker
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              Enter your details below.
-            </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
           </Stack>
           <LoginForm />
 
@@ -61,7 +54,7 @@ export default function Login() {
             <Typography variant="body2" align="center" sx={{ mt: 3 }}>
               Don’t have an account?&nbsp;
               <Link variant="subtitle2" component={RouterLink} to="/register">
-                Get started
+                Register
               </Link>
             </Typography>
           </MHidden>

@@ -11,7 +11,6 @@ import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '
 // components
 import MenuPopover from '../../components/MenuPopover';
 //
-import account from '../../_mocks_/account';
 import { logout } from '../../redux/actions/userActions';
 
 // ----------------------------------------------------------------------
@@ -78,7 +77,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={''} alt="photoURL" />
       </IconButton>
 
       <MenuPopover

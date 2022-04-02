@@ -10,54 +10,34 @@ import ConfigChart from './components/ConfigChart';
 import ExportPublish from './components/ExportPublish';
 import Page from '../../components/Page';
 
-const steps = [
-  'Upload Data',
-  'Prepare Data',
-  'Config Chart',
-  'Export & Publish',
-];
+const steps = ['Upload Data', 'Prepare Data', 'Config Chart', 'Export & Publish'];
 
-function getStepComponent(
-  stepName: string,
-  chartId: string,
-  data: any,
-  setData: any
-) {
+function getStepComponent(stepName: string, chartId: string, data: any, setData: any) {
   switch (stepName) {
     case 'upload':
       return {
         step: 0,
-        component: (
-          <UploadData chartId={chartId} data={data} setData={setData} />
-        ),
+        component: <UploadData chartId={chartId} data={data} setData={setData} />,
       };
     case 'prepare':
       return {
         step: 1,
-        component: (
-          <PrepareData chartId={chartId} data={data} setData={setData} />
-        ),
+        component: <PrepareData chartId={chartId} data={data} setData={setData} />,
       };
     case 'config':
       return {
         step: 2,
-        component: (
-          <ConfigChart chartId={chartId} data={data} setData={setData} />
-        ),
+        component: <ConfigChart chartId={chartId} data={data} setData={setData} />,
       };
     case 'export':
       return {
         step: 3,
-        component: (
-          <ExportPublish chartId={chartId} data={data} setData={setData} />
-        ),
+        component: <ExportPublish chartId={chartId} data={data} setData={setData} />,
       };
     default:
       return {
         step: 0,
-        component: (
-          <UploadData chartId={chartId} data={data} setData={setData} />
-        ),
+        component: <UploadData chartId={chartId} data={data} setData={setData} />,
       };
   }
 }
@@ -73,19 +53,14 @@ export default function Charts() {
   );
 
   useEffect(() => {
-    const { step, component } = getStepComponent(
-      stepName,
-      chartId,
-      data,
-      setData
-    );
+    const { step, component } = getStepComponent(stepName, chartId, data, setData);
 
     setActiveStep(step);
     setActiveComponent(component);
   }, [stepName, chartId]);
 
   return (
-    <Page title="Create chart, map, table">
+    <Page title="Create chart">
       <Stepper activeStep={activeStep}>
         {steps.map((label) => {
           return (

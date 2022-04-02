@@ -104,8 +104,8 @@ const ConfigChart = (props: any) => {
 
   return (
     <Box>
-      <Grid container spacing={{ xs: 1, sm: 2, md: 2 }} height="68vh">
-        <Grid item sm={12} md={8} className="chart-viewer">
+      <Grid container spacing={{ xs: 1, sm: 2, md: 2 }} height="68vh" style={{ margin: 'unset' }}>
+        <Grid item sm={12} md={8} className="chart-viewer" style={{ padding: '8px' }}>
           <Plot data={trace} layout={layout} config={config} />
         </Grid>
 
@@ -125,7 +125,13 @@ const ConfigChart = (props: any) => {
             </Tabs>
           </Box>
           <TabPanel value={tabOption} selValue="structure">
-            <Structure result={result} trace={trace} setTrace={setTrace} />
+            <Structure
+              result={result}
+              trace={trace}
+              setTrace={setTrace}
+              layout={layout}
+              setLayout={setLayout}
+            />
           </TabPanel>
           <TabPanel value={tabOption} selValue="common">
             <Common layout={layout} setLayout={setLayout} />
