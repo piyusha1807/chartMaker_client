@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {
   Button,
+  Card,
   FormControl,
   Grid,
   MenuItem,
@@ -50,61 +51,60 @@ const ExportPublish = (props: any) => {
 
   const handleNext = () => {
     navigate('/create/chart/new/upload');
-  }
+  };
 
   return (
-    <Box>
+    <Box sx={{ padding: '1rem', marginTop: '1rem' }}>
       <Grid container spacing={{ xs: 1, sm: 2, md: 2 }} height="68vh">
         <Grid item sm={12} md={8}>
           <Plot data={trace} layout={layout} config={config} divId={plotId} />
         </Grid>
         <Grid item sm={12} md={4}>
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={0.1}
-            sx={{ my: 1 }}
-          >
-            <TextField
-              size="small"
-              label="Chart name"
-              value={chartName?.name}
-              onChange={(e: any) => handleChartName(e.target.value, 'name')}
-            />
-            <Typography variant="h6">.</Typography>
-            <FormControl sx={{ m: 1, minWidth: 80 }}>
-              <Select
+          <Card sx={{ padding: '1rem' }}>
+            <Typography variant="subtitle1" gutterBottom>
+              Export Chart
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Can edit name or format of chart
+            </Typography>
+            <Stack direction="row" alignItems="center" spacing={1} sx={{ my: 1 }}>
+              <TextField
                 size="small"
-                value={chartName?.ext}
-                onChange={(e: any) => handleChartName(e.target.value, 'ext')}
-                autoWidth
-              >
-                <MenuItem value="jpeg">jpeg</MenuItem>
-                <MenuItem value="png">png</MenuItem>
-                <MenuItem value="webp">webp</MenuItem>
-                <MenuItem value="svg">svg</MenuItem>
-              </Select>
-            </FormControl>
-          </Stack>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handlSaveToOmero}
-          >
-            Download
-          </Button>
+                label="Chart name"
+                value={chartName?.name}
+                onChange={(e: any) => handleChartName(e.target.value, 'name')}
+              />
+              <Typography variant="h6">.</Typography>
+              <FormControl sx={{ m: 1, minWidth: 80 }}>
+                <Select
+                  size="small"
+                  value={chartName?.ext}
+                  onChange={(e: any) => handleChartName(e.target.value, 'ext')}
+                  autoWidth
+                >
+                  <MenuItem value="jpeg">jpeg</MenuItem>
+                  <MenuItem value="png">png</MenuItem>
+                  <MenuItem value="webp">webp</MenuItem>
+                  <MenuItem value="svg">svg</MenuItem>
+                </Select>
+              </FormControl>
+              <Button color="primary" variant="outlined" onClick={handlSaveToOmero}>
+                Export
+              </Button>
+            </Stack>
+
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+                Back
+              </Button>
+              <Box sx={{ flex: '1 1 auto' }} />
+              <Button color="primary" variant="contained" onClick={handleNext}>
+                Create new
+              </Button>
+            </Box>
+          </Card>
         </Grid>
       </Grid>
-
-      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
-          Back
-        </Button>
-        <Box sx={{ flex: '1 1 auto' }} />
-        <Button color="primary" variant="contained" onClick={handleNext}>
-          Create new
-        </Button>
-      </Box>
     </Box>
   );
 };

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import { Box, Grid, MenuItem, Stack, Typography } from '@mui/material';
+import { Box, Card, Grid, MenuItem, Stack, Typography } from '@mui/material';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -114,7 +114,7 @@ const UploadData = (props: any) => {
   };
 
   return (
-    <Box>
+    <Card sx={{ padding: '1rem', marginTop: '1rem' }}>
       <Typography variant="subtitle1">Select the upload option:</Typography>
       <Stack spacing={1}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -195,7 +195,7 @@ const UploadData = (props: any) => {
           </Button>
         </Box>
       </Stack>
-    </Box>
+    </Card>
   );
 };
 

@@ -33,14 +33,7 @@ MenuPopover.propTypes = {
   onClose: PropTypes.any,
 };
 
-export default function MenuPopover({
-  children,
-  sx,
-  open,
-  anchorEl,
-  onClose,
-  ...other
-}: any) {
+export default function MenuPopover({ children, sx, open, anchorEl, onClose, ...other }: any) {
   return (
     <Popover
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -62,7 +55,6 @@ export default function MenuPopover({
       {...other}
     >
       <ArrowStyle className="arrow" />
-
       {children}
     </Popover>
   );

@@ -32,15 +32,10 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function Register() {
   return (
-    <RootStyle title="Register">
+    <RootStyle title="Register - ChartInstant">
       <AuthLayout>
         Already have an account? &nbsp;
-        <Link
-          underline="none"
-          variant="subtitle2"
-          component={RouterLink}
-          to="/login"
-        >
+        <Link underline="none" variant="subtitle2" component={RouterLink} to="/login">
           Login
         </Link>
       </AuthLayout>
@@ -51,9 +46,7 @@ export default function Register() {
             <Typography variant="h4" gutterBottom>
               Get started in few steps
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>
-              Able to save and share charts.
-            </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Able to save and share charts.</Typography>
           </Stack>
           <RegisterForm />
 

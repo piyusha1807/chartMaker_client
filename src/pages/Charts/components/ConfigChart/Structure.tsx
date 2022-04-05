@@ -13,10 +13,13 @@ import {
   Stack,
   TextField,
   Typography,
+  IconButton,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import AddIcon from '@mui/icons-material/Add';
-import { SketchPicker } from 'react-color';
+import '../../styles/configChart.scss';
+import ColorPicker from '../../../../components/ColorPicker';
 
 const iconList = [
   { name: 'bar', titleName: 'Bar', path: '/static/images/bar.png' },
@@ -72,12 +75,6 @@ const Structure = (props: any) => {
     setTrace(newArr);
   };
 
-  const handleShowColorPicker = (index: number) => {
-    const newArr = [...trace];
-    newArr[index].showColorPicker = !newArr[index].showColorPicker;
-    setTrace(newArr);
-  };
-
   const addTrace = () => {
     setTrace([
       ...trace,
@@ -92,6 +89,12 @@ const Structure = (props: any) => {
         marker: { color: '#483c84' },
       },
     ]);
+  };
+
+  const removeTrace = () => {
+    const newArr = [...trace];
+    newArr.pop();
+    setTrace(newArr);
   };
 
   const handleChartModal = () => {
@@ -115,8 +118,18 @@ const Structure = (props: any) => {
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="shape data"
                 id="shape-data"
+                className="accordion-delete"
               >
-                <Typography>{`Trace ${index}`}</Typography>
+                <>
+                  <Typography>{`Trace ${index}`}</Typography>
+                  <IconButton aria-label="Delete trace" component="span">
+                    {trace.length > 1 && (
+                      <Typography onClick={removeTrace}>
+                        <DeleteOutlinedIcon />
+                      </Typography>
+                    )}
+                  </IconButton>
+                </>
               </AccordionSummary>
               <AccordionDetails>
                 <Stack spacing={2}>
@@ -220,45 +233,15 @@ const Structure = (props: any) => {
                           <MenuItem value={key}>{key}</MenuItem>
                         ))}
                       </TextField>
-                      <Stack
-                        direction="row"
-                        alignItems="center"
-                        justifyContent="space-between"
-                        spacing={2}
-                        sx={{ my: 1 }}
-                      >
-                        <Typography>Color: </Typography>
-                        <Box
-                          sx={{
-                            width: 80,
-                            height: 35,
-                            backgroundColor: item.marker.color,
-                            borderRadius: '5px',
-                          }}
-                          onClick={() => handleShowColorPicker(index)}
-                        >
-                          <p
-                            style={{
-                              color: 'white',
-                              textAlign: 'center',
-                              verticalAlign: 'middle',
-                              lineHeight: '35px',
-                              cursor: 'pointer',
-                            }}
-                          >
-                            {item.marker.color}
-                          </p>
-                        </Box>
-                      </Stack>
-                      {item.showColorPicker && (
-                        <SketchPicker
-                          color={item.marker.color}
-                          onChange={(e) => handleColorChange(e.hex, index)}
-                        />
-                      )}
                     </>
                   )}
                 </Stack>
+                <ColorPicker
+                  color={item.marker.color}
+                  setColor={handleColorChange}
+                  property={[index]}
+                  label="Color"
+                />
               </AccordionDetails>
             </Accordion>
           );

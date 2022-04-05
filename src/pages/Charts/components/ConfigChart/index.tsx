@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/system';
-import { Button, Grid, Tab, Tabs } from '@mui/material';
+import { Button, Card, Grid, Tab, Tabs } from '@mui/material';
 import { useNavigate } from 'react-router';
 import _ from 'lodash';
 import Plot from 'react-plotly.js';
@@ -55,20 +55,38 @@ const ConfigChart = (props: any) => {
       type: 'bar',
       mode: 'markers',
       marker: { color: '#483c84' },
-      showColorPicker: false,
     },
   ]);
   const [layout, setLayout] = useState<any>({
     width: 650,
     height: 450,
-    title: 'Enter Chart Title',
+    title: {
+      text: 'Enter Chart Title',
+      font: {
+        size: 13,
+      },
+      x: -1,
+      y: 2,
+    },
     xaxis: {
-      title: 'X Axis',
-      showgrid: false,
-      zeroline: false,
+      title: {
+        text: 'X Axis',
+        font: {
+          size: '22',
+        },
+      },
+      showgrid: true,
+      showline: true,
+      visible: true,
+      gridwidth: '1',
     },
     yaxis: {
-      title: 'Y Axis',
+      title: {
+        text: 'Y Axis',
+        font: {
+          size: '22',
+        },
+      },
       showline: false,
     },
     showlegend: true,
@@ -76,12 +94,13 @@ const ConfigChart = (props: any) => {
       x: 1.0,
       y: 1.0,
     },
-    // plot_bgcolor: '#22194D',
-    // paper_bgcolor: '#22194D'
+    plot_bgcolor: '#22194D',
+    paper_bgcolor: '#22194D',
   });
 
   const config = {
     displaylogo: false,
+    responsive: true,
   };
 
   const handleBack = () => {
@@ -103,54 +122,52 @@ const ConfigChart = (props: any) => {
   };
 
   return (
-    <Box>
-      <Grid container spacing={{ xs: 1, sm: 2, md: 2 }} height="68vh" style={{ margin: 'unset' }}>
-        <Grid item sm={12} md={8} className="chart-viewer" style={{ padding: '8px' }}>
+    <Box sx={{ padding: '1rem', marginTop: '1rem' }}>
+      <Grid container spacing={{ xs: 1, sm: 2, md: 2 }} height="75vh" style={{ margin: 'unset' }}>
+        <Grid item sm={12} md={8}>
           <Plot data={trace} layout={layout} config={config} />
         </Grid>
-
-        <Grid item sm={12} md={4} style={{ height: '100%', overflow: 'auto' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs
-              value={tabOption}
-              onChange={handleTabChange}
-              allowScrollButtonsMobile
-              variant="scrollable"
-              scrollButtons="auto"
-              aria-label="Configuration tabs"
-            >
-              <Tab label="Structure" value="structure" />
-              <Tab label="Common" value="common" />
-              <Tab label="All Config" value="allConfig" />
-            </Tabs>
-          </Box>
-          <TabPanel value={tabOption} selValue="structure">
-            <Structure
-              result={result}
-              trace={trace}
-              setTrace={setTrace}
-              layout={layout}
-              setLayout={setLayout}
-            />
-          </TabPanel>
-          <TabPanel value={tabOption} selValue="common">
-            <Common layout={layout} setLayout={setLayout} />
-          </TabPanel>
-          <TabPanel value={tabOption} selValue="allConfig">
-            Item Three
-          </TabPanel>
+        <Grid item sm={12} md={4}>
+          <Card sx={{ padding: '1rem' }}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs
+                value={tabOption}
+                onChange={handleTabChange}
+                allowScrollButtonsMobile
+                variant="scrollable"
+                scrollButtons="auto"
+                aria-label="Configuration tabs"
+              >
+                <Tab label="Structure" value="structure" />
+                <Tab label="Common" value="common" />
+              </Tabs>
+            </Box>
+            <Box style={{ height: '62vh', overflow: 'auto' }}>
+              <TabPanel value={tabOption} selValue="structure">
+                <Structure
+                  result={result}
+                  trace={trace}
+                  setTrace={setTrace}
+                  layout={layout}
+                  setLayout={setLayout}
+                />
+              </TabPanel>
+              <TabPanel value={tabOption} selValue="common">
+                <Common layout={layout} setLayout={setLayout} />
+              </TabPanel>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
+                Back
+              </Button>
+              <Box sx={{ flex: '1 1 auto' }} />
+              <Button color="primary" variant="contained" onClick={handleNext}>
+                Generate
+              </Button>
+            </Box>
+          </Card>
         </Grid>
       </Grid>
-
-      <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-        <Button color="inherit" onClick={handleBack} sx={{ mr: 1 }}>
-          Back
-        </Button>
-        <Box sx={{ flex: '1 1 auto' }} />
-        <Button color="primary" variant="contained" onClick={handleNext}>
-          Generate
-        </Button>
-      </Box>
     </Box>
   );
 };

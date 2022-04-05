@@ -10,8 +10,13 @@ import Page from '../components/Page';
 
 const DashboardApp = () => {
   return (
-    <Page title="Dashboard" dMeta="Create chart, map and table" kMeta="instant chart, map, table">
-      <Stack spacing={2} direction="row">
+    <Page
+      title="Dashboard - ChartInstant"
+      dMeta="Create chart, map and table"
+      kMeta="instant chart, map, table"
+    >
+      <h1>Create instant charts, maps and tables</h1>
+      <Stack spacing={2} direction="row" sx={{ pt: '10px' }}>
         <Card sx={{ maxWidth: 350, padding: '20px' }}>
           <CardMedia
             component="img"

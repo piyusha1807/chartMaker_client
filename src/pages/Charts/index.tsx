@@ -3,7 +3,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { useParams } from 'react-router-dom';
-import { Card } from '@mui/material';
+import { Box } from '@mui/material';
 import UploadData from './components/UploadData';
 import PrepareData from './components/PrepareData';
 import ConfigChart from './components/ConfigChart';
@@ -60,7 +60,7 @@ export default function Charts() {
   }, [stepName, chartId]);
 
   return (
-    <Page title="Create chart">
+    <Page title="Create charts - ChartInstant">
       <Stepper activeStep={activeStep}>
         {steps.map((label) => {
           return (
@@ -70,7 +70,8 @@ export default function Charts() {
           );
         })}
       </Stepper>
-      <Card sx={{ padding: '1rem', marginTop: '1rem' }}>{activeComponent}</Card>
+      {/* <Card sx={{ padding: '1rem', marginTop: '1rem' }}>{activeComponent}</Card> */}
+      <Box>{activeComponent}</Box>
     </Page>
   );
 }

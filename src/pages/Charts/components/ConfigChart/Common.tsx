@@ -9,91 +9,98 @@ import {
   FormControlLabel,
   //   ToggleButtonGroup,
   //   ToggleButton,
-  Checkbox,
   Switch,
+  MenuItem,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ColorPicker from '../../../../components/ColorPicker';
+
+const fontObj = [
+  'Arial',
+  'Balto',
+  'Courier New',
+  'Droid Sans',
+  'Droid Serif',
+  'Droid Sans Mono',
+  'Gravitas One',
+  'Old Standard TT',
+  'Open Sans',
+  'Overpass',
+  'PT Sans Narrow',
+  'Raleway',
+  'Times New Roman',
+];
 
 const Common = (props: any) => {
   const { layout, setLayout } = props;
 
-  const handleCanvasChange = (type: any, value: any) => {
+  const handleCanvasChange = (value: any, type: any) => {
     setLayout({ ...layout, [type]: value });
   };
 
-  const handleCanvasLegendChange = (type: any, value?: any) => {
+  const handleCanvasNestedChange = (value: any, type: string, nType: string) => {
     const newObj = { ...layout };
-    newObj.legend[type] = value;
+    newObj[type][nType] = value;
     setLayout(newObj);
   };
 
-  const handleCanvasXAxisChange = (type: any, value?: any) => {
+  const handleCanvasNNestedChange = (value: any, type: string, nType: string, nnType: string) => {
     const newObj = { ...layout };
-    newObj.xaxis[type] = value;
+    newObj[type][nType][nnType] = value;
     setLayout(newObj);
   };
 
-  const handleCanvasYAxisChange = (type: any, value?: any) => {
+  const handleCanvasNNNestedChange = (
+    value: any,
+    type: string,
+    nType: string,
+    nnType: string,
+    nnnType: string
+  ) => {
     const newObj = { ...layout };
-    newObj.yaxis[type] = value;
+    newObj[type][nType][nnType][nnnType] = value;
     setLayout(newObj);
   };
-
-  //   const handleLegend = () => {
-  //     setLegend(!legend);
-  //   };
-
-  //   const handleTooltip = () => {
-  //     setTooltip(!tooltip);
-  //   };
-
-  //   const handleAlignment = (
-  //     event: React.MouseEvent<HTMLElement>,
-  //     newAlignment: string | null
-  //   ) => {
-  //     setAlignment(newAlignment);
-  //   };
 
   return (
     <>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        spacing={2}
+        // sx={{ my: 1 }}
+      >
+        <Typography>Size</Typography>
+        <TextField
+          id="outlined-number"
+          label="Width"
+          type="number"
+          size="small"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={layout?.width}
+          onChange={(e) => handleCanvasChange(e.target.value, 'width')}
+        />
+        <TextField
+          id="outlined-number"
+          label="Height"
+          type="number"
+          size="small"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          value={layout?.height}
+          onChange={(e) => handleCanvasChange(e.target.value, 'height')}
+        />
+      </Stack>
       <Accordion disableGutters>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="canvas" id="canvas">
-          <Typography>Canvas</Typography>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="title" id="title">
+          <Typography>Title</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Stack spacing={2}>
-            <Stack
-              direction="row"
-              alignItems="center"
-              justifyContent="space-between"
-              spacing={2}
-              // sx={{ my: 1 }}
-            >
-              <Typography>Size</Typography>
-              <TextField
-                id="outlined-number"
-                label="Width"
-                type="number"
-                size="small"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                value={layout?.width}
-                onChange={(e) => handleCanvasChange('width', e.target.value)}
-              />
-              <TextField
-                id="outlined-number"
-                label="Height"
-                type="number"
-                size="small"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                value={layout?.height}
-                onChange={(e) => handleCanvasChange('height', e.target.value)}
-              />
-            </Stack>
-
             <TextField
               id="outlined-number"
               label="Title"
@@ -103,32 +110,273 @@ const Common = (props: any) => {
                 shrink: true,
               }}
               value={layout?.title?.text}
-              onChange={(e) => handleCanvasChange('title', e.target.value)}
+              onChange={(e) => handleCanvasNestedChange(e.target.value, 'title', 'text')}
             />
-
             <TextField
               id="outlined-number"
-              label="X Axis"
+              label="Font size"
+              type="number"
               size="small"
-              type="text"
               InputLabelProps={{
                 shrink: true,
               }}
-              value={layout?.xaxis?.title?.text}
-              onChange={(e) => handleCanvasXAxisChange('title', e.target.value)}
-            />
-
-            <TextField
-              id="outlined-number"
-              label="Y Axis"
-              size="small"
-              type="text"
-              InputLabelProps={{
-                shrink: true,
+              value={layout?.title?.font?.size}
+              onChange={(e) => {
+                handleCanvasNNestedChange(e.target.value, 'title', 'font', 'size');
               }}
-              value={layout?.yaxis?.title?.text}
-              onChange={(e) => handleCanvasYAxisChange('title', e.target.value)}
             />
+            <TextField
+              select
+              size="small"
+              label="Font family"
+              value={layout?.title?.font?.family}
+              onChange={(e) => {
+                handleCanvasNNestedChange(e.target.value, 'title', 'font', 'family');
+              }}
+            >
+              {fontObj.map((value) => (
+                <MenuItem value={value}>{value}</MenuItem>
+              ))}
+            </TextField>
+            <ColorPicker
+              color={layout?.title?.font?.color}
+              setColor={handleCanvasNNestedChange}
+              property={['title', 'font', 'color']}
+              label="Color"
+            />
+            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2}>
+              <Typography>Position</Typography>
+              <TextField
+                id="outlined-number"
+                label="X"
+                type="number"
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={layout?.title?.x}
+                onChange={(e) => handleCanvasNestedChange(e.target.value, 'title', 'x')}
+              />
+              <TextField
+                id="outlined-number"
+                label="Y"
+                type="number"
+                size="small"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={layout?.title?.y}
+                onChange={(e) => handleCanvasNestedChange(e.target.value, 'title', 'y')}
+              />
+            </Stack>
+          </Stack>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion disableGutters>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="vertical axis"
+          id="vertical-axis"
+        >
+          <Typography>Vertical axis</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Stack spacing={2}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={layout?.xaxis?.visible}
+                  onChange={(e) => {
+                    handleCanvasNestedChange(e.target.checked, 'xaxis', 'visible');
+                  }}
+                />
+              }
+              label="Visible"
+            />
+            {layout?.xaxis?.visible && (
+              <>
+                <TextField
+                  id="outlined-number"
+                  label="Text"
+                  size="small"
+                  type="text"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={layout?.xaxis?.title?.text}
+                  onChange={(e) => handleCanvasNestedChange(e.target.value, 'xaxis', 'title')}
+                />
+                <TextField
+                  id="outlined-number1"
+                  label="Font size"
+                  type="number"
+                  size="small"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={layout?.xaxis?.title?.font?.size}
+                  onChange={(e) => {
+                    handleCanvasNNNestedChange(e.target.value, 'xaxis', 'title', 'font', 'size');
+                  }}
+                />
+                <TextField
+                  select
+                  size="small"
+                  label="Font family"
+                  value={layout?.xaxis?.title?.font?.family}
+                  onChange={(e) => {
+                    handleCanvasNNNestedChange(e.target.value, 'xaxis', 'title', 'font', 'family');
+                  }}
+                >
+                  {fontObj.map((value) => (
+                    <MenuItem value={value}>{value}</MenuItem>
+                  ))}
+                </TextField>
+                <ColorPicker
+                  color={layout?.xaxis?.title?.font?.color}
+                  setColor={handleCanvasNNNestedChange}
+                  property={['xaxis', 'title', 'font', 'color']}
+                  label="Color"
+                />
+              </>
+            )}
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={layout?.xaxis?.showgrid}
+                  onChange={(e) => {
+                    handleCanvasNestedChange(e.target.checked, 'xaxis', 'showgrid');
+                  }}
+                />
+              }
+              label="Show grid"
+            />
+            {layout?.xaxis?.showgrid && (
+              <>
+                <TextField
+                  id="outlined-number"
+                  label="Width"
+                  size="small"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={layout?.xaxis?.gridwidth}
+                  onChange={(e) => handleCanvasNestedChange(e.target.value, 'xaxis', 'gridwidth')}
+                />
+                <ColorPicker
+                  color={layout?.xaxis?.gridcolor}
+                  setColor={handleCanvasNestedChange}
+                  property={['xaxis', 'gridcolor']}
+                  label="Color"
+                />
+              </>
+            )}
+          </Stack>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion disableGutters>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="horizontal axis"
+          id="horizontal-axis"
+        >
+          <Typography>Horizontal axis</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Stack spacing={2}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={layout?.yaxis?.visible}
+                  onChange={(e) => {
+                    handleCanvasNestedChange(e.target.checked, 'yaxis', 'visible');
+                  }}
+                />
+              }
+              label="Visible"
+            />
+            {layout?.yaxis?.visible && (
+              <>
+                <TextField
+                  id="outlined-number"
+                  label="Text"
+                  size="small"
+                  type="text"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={layout?.yaxis?.title?.text}
+                  onChange={(e) => handleCanvasNestedChange(e.target.value, 'yaxis', 'title')}
+                />
+                <TextField
+                  id="outlined-number1"
+                  label="Font size"
+                  type="number"
+                  size="small"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={layout?.yaxis?.title?.font?.size}
+                  onChange={(e) => {
+                    handleCanvasNNNestedChange(e.target.value, 'yaxis', 'title', 'font', 'size');
+                  }}
+                />
+                <TextField
+                  select
+                  size="small"
+                  label="Font family"
+                  value={layout?.yaxis?.title?.font?.family}
+                  onChange={(e) => {
+                    handleCanvasNNNestedChange(e.target.value, 'yaxis', 'title', 'font', 'family');
+                  }}
+                >
+                  {fontObj.map((value) => (
+                    <MenuItem value={value}>{value}</MenuItem>
+                  ))}
+                </TextField>
+                <ColorPicker
+                  color={layout?.yaxis?.title?.font?.color}
+                  setColor={handleCanvasNNNestedChange}
+                  property={['yaxis', 'title', 'font', 'color']}
+                  label="Color"
+                />
+              </>
+            )}
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={layout?.yaxis?.showgrid}
+                  onChange={(e) => {
+                    handleCanvasNestedChange(e.target.checked, 'yaxis', 'showgrid');
+                  }}
+                />
+              }
+              label="Show grid"
+            />
+            {layout?.yaxis?.showgrid && (
+              <>
+                <TextField
+                  id="outlined-number"
+                  label="Width"
+                  size="small"
+                  type="number"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={layout?.yaxis?.gridwidth}
+                  onChange={(e) => handleCanvasNestedChange(e.target.value, 'yaxis', 'gridwidth')}
+                />
+                <ColorPicker
+                  color={layout?.yaxis?.gridcolor}
+                  setColor={handleCanvasNestedChange}
+                  property={['yaxis', 'gridcolor']}
+                  label="Color"
+                />
+              </>
+            )}
           </Stack>
         </AccordionDetails>
       </Accordion>
@@ -143,56 +391,58 @@ const Common = (props: any) => {
               <Switch
                 checked={layout?.showlegend}
                 onChange={(e) => {
-                  handleCanvasChange('showlegend', e.target.checked);
+                  handleCanvasChange(e.target.checked, 'showlegend');
                 }}
               />
             }
             label="Show Legend"
           />
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            spacing={2}
-            // sx={{ my: 1 }}
-          >
-            <Typography>Position</Typography>
-            <TextField
-              id="outlined-number"
-              label="X"
-              type="number"
-              size="small"
-              inputProps={{
-                step: '0.1',
-                min: '-1.0',
-                max: '1.0',
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              value={layout?.legend?.x}
-              onChange={(e) => {
-                handleCanvasLegendChange('x', e.target.value);
-              }}
-            />
+          {layout?.showlegend && (
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              spacing={2}
+              // sx={{ my: 1 }}
+            >
+              <Typography>Position</Typography>
+              <TextField
+                id="outlined-number"
+                label="X"
+                type="number"
+                size="small"
+                inputProps={{
+                  step: '0.1',
+                  min: '-1.0',
+                  max: '1.0',
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={layout?.legend?.x}
+                onChange={(e) => {
+                  handleCanvasNestedChange(e.target.value, 'legend', 'x');
+                }}
+              />
 
-            <TextField
-              id="outlined-number"
-              label="Y"
-              type="number"
-              size="small"
-              inputProps={{
-                step: '0.1',
-                min: '-1.0',
-                max: '1.0',
-              }}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              value={layout?.legend?.y}
-              onChange={(e) => handleCanvasLegendChange('y', e.target.value)}
-            />
-          </Stack>
+              <TextField
+                id="outlined-number"
+                label="Y"
+                type="number"
+                size="small"
+                inputProps={{
+                  step: '0.1',
+                  min: '-1.0',
+                  max: '1.0',
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={layout?.legend?.y}
+                onChange={(e) => handleCanvasNestedChange(e.target.value, 'legend', 'y')}
+              />
+            </Stack>
+          )}
           {/* <Stack
             direction="row"
             alignItems="center"
@@ -221,49 +471,19 @@ const Common = (props: any) => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion disableGutters>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="shape data"
-          id="shape-data"
-        >
-          <Typography>Shape data</Typography>
-        </AccordionSummary>
-        <AccordionDetails>d</AccordionDetails>
-      </Accordion>
+      <ColorPicker
+        color={layout?.plot_bgcolor}
+        setColor={handleCanvasChange}
+        property={['plot_bgcolor']}
+        label="Plot color"
+      />
 
-      <Accordion disableGutters>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="Graphic" id="Graphic">
-          <Typography>Graphic</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-            spacing={2}
-            sx={{ my: 1 }}
-          >
-            <Typography>Thickness</Typography>
-            <TextField
-              id="outlined-number"
-              label="Thickness"
-              type="number"
-              size="small"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Stack>
-          <Stack>
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Smooth" />
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Show point" />
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Show label" />
-          </Stack>
-        </AccordionDetails>
-      </Accordion>
-
-      <FormControlLabel control={<Switch defaultChecked />} label="Show Tooltip" />
+      <ColorPicker
+        color={layout?.paper_bgcolor}
+        setColor={handleCanvasChange}
+        property={['paper_bgcolor']}
+        label="Paper color"
+      />
     </>
   );
 };

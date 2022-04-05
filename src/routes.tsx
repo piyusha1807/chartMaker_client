@@ -21,12 +21,12 @@ export default function Router() {
       path: '/',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="dashboard " replace /> },
+        { path: '', element: <Navigate to="dashboard " replace /> },
         { path: 'dashboard', element: <DashboardApp /> },
         {
           path: 'create',
           children: [
-            { element: <Navigate to="chart/new/upload" replace /> },
+            { path: '', element: <Navigate to="chart/new/upload" replace /> },
             { path: 'chart/:chartId/:stepName', element: <Charts /> },
           ],
         },

@@ -1,4 +1,4 @@
-import { Box, Button, Tooltip } from '@mui/material';
+import { Box, Button, Card, Tooltip } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router';
 import EditIcon from '@mui/icons-material/Edit';
@@ -217,7 +217,7 @@ const PrepareData = (props: any) => {
   };
 
   return (
-    <Box>
+    <Card sx={{ padding: '1rem', marginTop: '1rem' }}>
       <DataGridTable
         columns={getFormattedHeaders(upload?.csvData)}
         rows={getFormattedRows(upload?.csvData)}
@@ -234,7 +234,7 @@ const PrepareData = (props: any) => {
         <Box sx={{ flex: '1 1 auto' }} />
         <Button color="primary" variant="contained" onClick={handleNext}>Next</Button>
       </Box>
-    </Box>
+    </Card>
   );
 };
 
