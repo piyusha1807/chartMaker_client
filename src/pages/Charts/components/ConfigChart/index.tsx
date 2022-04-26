@@ -76,7 +76,7 @@ const ConfigChart = (props: any) => {
         },
       },
       showgrid: true,
-      showline: true,
+      showline: false,
       visible: true,
       gridwidth: '1',
     },
@@ -94,8 +94,8 @@ const ConfigChart = (props: any) => {
       x: 1.0,
       y: 1.0,
     },
-    plot_bgcolor: '#22194D',
-    paper_bgcolor: '#22194D',
+    plot_bgcolor: '#ffffff',
+    paper_bgcolor: '#ffffff',
   });
 
   const config = {
@@ -104,7 +104,7 @@ const ConfigChart = (props: any) => {
   };
 
   const handleBack = () => {
-    navigate('/create/chart/new/prepare');
+    navigate('/chart/new/prepare');
   };
 
   const handleNext = () => {
@@ -114,7 +114,7 @@ const ConfigChart = (props: any) => {
       layout,
       config,
     });
-    navigate('/create/chart/new/export');
+    navigate('/chart/new/export');
   };
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {

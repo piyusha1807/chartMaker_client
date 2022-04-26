@@ -69,7 +69,7 @@ const Common = (props: any) => {
         alignItems="center"
         justifyContent="space-between"
         spacing={2}
-        // sx={{ my: 1 }}
+        sx={{ m: '1rem' }}
       >
         <Typography>Size</Typography>
         <TextField

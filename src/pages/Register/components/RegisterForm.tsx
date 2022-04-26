@@ -18,8 +18,9 @@ export default function RegisterForm() {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state: any) => state.userLogin);
-  const { loading, loggedIn } = userLogin;
+  const { loading, userInfo } = userLogin;
 
+  const loggedIn = !!(userInfo && userInfo.token);
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {

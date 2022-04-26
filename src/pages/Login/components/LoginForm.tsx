@@ -26,20 +26,19 @@ export default function LoginForm() {
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state: any) => state.userLogin);
-  const { loading, loggedIn } = userLogin;
+  const { loading, userInfo } = userLogin;
 
+  const loggedIn = !!(userInfo && userInfo.token);
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (loggedIn) {
-      navigate('/dashboard', { replace: true });
+      navigate('/', { replace: true });
     }
   }, [loggedIn]);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Email must be a valid email address')
-      .required('Email is required'),
+    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
 
@@ -95,19 +94,9 @@ export default function LoginForm() {
           />
         </Stack>
 
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          sx={{ my: 2 }}
-        >
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
           <FormControlLabel
-            control={
-              <Checkbox
-                {...getFieldProps('remember')}
-                checked={values.remember}
-              />
-            }
+            control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label="Remember me"
           />
 
@@ -116,13 +105,7 @@ export default function LoginForm() {
           </Link>
         </Stack>
 
-        <LoadingButton
-          fullWidth
-          size="large"
-          type="submit"
-          variant="contained"
-          loading={loading}
-        >
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loading}>
           Login
         </LoadingButton>
       </Form>

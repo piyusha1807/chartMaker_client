@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 //
 import DashboardNavbar from './DashboardNavbar';
-import DashboardSidebar from './DashboardSidebar';
 
 // ----------------------------------------------------------------------
 
@@ -37,12 +36,9 @@ const MainStyle = styled('div')(({ theme }) => ({
 export default function DashboardLayout() {
   const userLogin = useSelector((state: any) => state.userLogin);
 
-  const [open, setOpen] = useState(false);
-
   return (
     <RootStyle>
-      <DashboardNavbar onOpenSidebar={() => setOpen(true)} userLogin={userLogin} />
-      <DashboardSidebar isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
+      <DashboardNavbar userLogin={userLogin} />
       <MainStyle>
         <Outlet />
       </MainStyle>

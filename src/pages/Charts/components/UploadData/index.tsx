@@ -6,7 +6,7 @@ import { Box, Card, Grid, MenuItem, Stack, Typography } from '@mui/material';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import GridOnIcon from '@mui/icons-material/GridOn';
+// import GridOnIcon from '@mui/icons-material/GridOn';
 import TextField from '@mui/material/TextField';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import * as XLSX from 'xlsx';
@@ -16,6 +16,12 @@ import { useNavigate } from 'react-router';
 const Input = styled('input')({
   display: 'none',
 });
+
+const sampleSheet = [
+  { name: 'example1', value: 'example1.csv' },
+  { name: 'example2', value: 'example2.csv' },
+  { name: 'example3', value: 'example3.csv' },
+];
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,6 +57,7 @@ const UploadData = (props: any) => {
   const [sheetNames, setSheetNames] = useState<any>([]);
   const [sheets, setSheets] = useState<any>({});
   const [currSheet, setCurrSheet] = useState<string>('');
+  const [currSampleSheet, setCurrSampleSheet] = useState<string>('');
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setUploadOpt(newValue);
@@ -97,6 +104,16 @@ const UploadData = (props: any) => {
     setCurrSheet(value);
   };
 
+  const handleSampleSheet = async (value: string) => {
+    const response: any = await fetch(`/data/${value}.csv`);
+    const reader = response?.body?.getReader();
+    const result = await reader.read();
+    const decoder = new TextDecoder('utf-8');
+    const csv = await decoder.decode(result.value);
+    setCsvData(csv);
+    setCurrSampleSheet(value);
+  };
+
   const handleTextChange = (e: { target: { value: React.SetStateAction<string> } }) => {
     setCsvData(e.target.value);
   };
@@ -110,7 +127,7 @@ const UploadData = (props: any) => {
         csvData: csvData.replace(/\n*$/, ''),
       },
     });
-    navigate('/create/chart/new/prepare');
+    navigate('/chart/new/prepare');
   };
 
   return (
@@ -127,51 +144,74 @@ const UploadData = (props: any) => {
             aria-label="Upload options"
           >
             <Tab icon={<CloudUploadIcon />} label="XLSX/CSV upload" value="upload" />
-            <Tab icon={<GridOnIcon />} label="Connect data table" value="connect" />
+            {/* <Tab icon={<GridOnIcon />} label="Connect data table" value="connect" /> */}
           </Tabs>
         </Box>
 
         <TabPanel value={uploadOpt} selValue="upload">
           <Grid container>
             <Grid item sm={12} md={4}>
-              <Box sx={{ margin: '1rem' }}>
-                <Typography variant="body1">Upload CSV or Excel spreadsheets</Typography>
-                <br />
-                <label htmlFor="contained-button-file">
-                  <Input
-                    accept="file/*"
-                    id="contained-button-file"
-                    type="file"
-                    onChange={changeHandler}
-                  />
-                  <Button variant="outlined" startIcon={<FileUploadIcon />} component="span">
-                    Upload
-                  </Button>
-                </label>
+              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Box sx={{ margin: '1rem' }}>
+                  <Typography variant="body1">Upload CSV or Excel spreadsheets</Typography>
+                  <br />
+                  <label htmlFor="contained-button-file">
+                    <Input
+                      accept="file/*"
+                      id="contained-button-file"
+                      type="file"
+                      onChange={changeHandler}
+                    />
+                    <Button variant="outlined" startIcon={<FileUploadIcon />} component="span">
+                      Upload
+                    </Button>
+                  </label>
 
-                {isFilePicked ? (
-                  <Typography variant="body2">Filename: {selectedFile.name}</Typography>
-                ) : (
-                  <Typography variant="body2">Select a file to show details</Typography>
-                )}
-              </Box>
-              <Box sx={{ margin: '1rem' }}>
+                  {isFilePicked ? (
+                    <Typography variant="body2">Filename: {selectedFile.name}</Typography>
+                  ) : (
+                    <Typography variant="body2">Select a file to show details</Typography>
+                  )}
+                </Box>
                 {isFilePicked && sheetNames.length > 1 && (
+                  <Box sx={{ margin: '1rem' }}>
+                    <TextField
+                      select
+                      fullWidth
+                      size="small"
+                      label="Select sheet"
+                      value={currSheet}
+                      onChange={(e) => {
+                        handleSheetChange(e.target.value);
+                      }}
+                    >
+                      {sheetNames.map((key: any) => (
+                        <MenuItem value={key}>{key}</MenuItem>
+                      ))}
+                    </TextField>
+                  </Box>
+                )}
+                <Box sx={{ margin: '1rem' }}>
+                  <Typography variant="body2">
+                    If you just want to try ChartInstant, here are some list of datasets:
+                  </Typography>
                   <TextField
                     select
                     fullWidth
                     size="small"
-                    label="Select sheet"
-                    value={currSheet}
+                    label="Select a sample dataset"
+                    value={currSampleSheet}
                     onChange={(e) => {
-                      handleSheetChange(e.target.value);
+                      handleSampleSheet(e.target.value);
                     }}
                   >
-                    {sheetNames.map((key: any) => (
-                      <MenuItem value={key}>{key}</MenuItem>
+                    {sampleSheet.map((item: any, idx: number) => (
+                      <MenuItem key={idx} value={item.name}>
+                        {item.value}
+                      </MenuItem>
                     ))}
                   </TextField>
-                )}
+                </Box>
               </Box>
             </Grid>
             <Grid item sm={12} md={8}>

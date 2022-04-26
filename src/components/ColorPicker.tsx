@@ -21,6 +21,8 @@ const ColorPicker = (props: any) => {
             height: 35,
             backgroundColor: color,
             borderRadius: '5px',
+            border: '1px solid #a2a4a7',
+            boxShadow: '-7px 9px 25px -6px rgba(184,184,184,1)',
           }}
           onClick={() => setShowColorPicker(!showColorPicker)}
         >

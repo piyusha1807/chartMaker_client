@@ -1,23 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
-import menu2Fill from '@iconify/icons-eva/menu-2-fill';
 import { useNavigate } from 'react-router';
-// material
+import { Link as RouterLink } from 'react-router-dom';
 import { alpha, styled } from '@mui/material/styles';
 import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 import Button from '@mui/material/Button';
-// components
-import { MHidden } from '../../components/@material-extend';
-//
-import Searchbar from './Searchbar';
+import shoppingBagFill from '@iconify/icons-eva/shopping-bag-fill';
+import Logo from '../../components/Logo';
 import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
-// import NotificationsPopover from './NotificationsPopover';
 
 // ----------------------------------------------------------------------
 
-const DRAWER_WIDTH = 280;
 const APPBAR_MOBILE = 54;
 const APPBAR_DESKTOP = 62;
 
@@ -26,9 +21,6 @@ const RootStyle = styled(AppBar)(({ theme }) => ({
   backdropFilter: 'blur(6px)',
   WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
   backgroundColor: alpha(theme.palette.background.default, 0.72),
-  [theme.breakpoints.up('lg')]: {
-    width: `calc(100% - ${DRAWER_WIDTH + 1}px)`,
-  },
 }));
 
 const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
@@ -42,13 +34,14 @@ const ToolbarStyle = styled(Toolbar)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 DashboardNavbar.propTypes = {
-  onOpenSidebar: PropTypes.func,
   userLogin: PropTypes.object,
 };
 
-export default function DashboardNavbar({ onOpenSidebar, userLogin }: any) {
-  const { loggedIn } = userLogin;
+export default function DashboardNavbar({ userLogin }: any) {
+  const { userInfo } = userLogin;
   const navigate = useNavigate();
+
+  const loggedIn = !!(userInfo && userInfo.token);
 
   const handleLogin = () => {
     navigate('/login');
@@ -61,18 +54,18 @@ export default function DashboardNavbar({ onOpenSidebar, userLogin }: any) {
   return (
     <RootStyle>
       <ToolbarStyle>
-        <MHidden width="lgUp">
-          <IconButton onClick={onOpenSidebar} sx={{ mr: 1, color: 'text.primary' }}>
-            <Icon icon={menu2Fill} />
-          </IconButton>
-        </MHidden>
-
-        <Searchbar />
+        <Box component={RouterLink} to="/">
+          <Logo />
+        </Box>
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
+          {loggedIn && (
+            <IconButton sx={{ color: 'text.secondary' }}>
+              <Icon icon={shoppingBagFill} />
+            </IconButton>
+          )}
           <LanguagePopover />
-          {/* <NotificationsPopover /> */}
           {loggedIn ? (
             <AccountPopover />
           ) : (

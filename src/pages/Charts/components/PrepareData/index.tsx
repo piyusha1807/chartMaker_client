@@ -205,7 +205,7 @@ const PrepareData = (props: any) => {
   }
 
   const handleBack = () => {
-    navigate('/create/chart/new/upload');
+    navigate('/chart/new/upload');
   };
   
   const handleNext = () => {
@@ -213,7 +213,7 @@ const PrepareData = (props: any) => {
       ...data,
       prepareData: getFormattedRows(apiRef.current.getDataAsCsv(), false)
     })
-    navigate('/create/chart/new/config');
+    navigate('/chart/new/config');
   };
 
   return (

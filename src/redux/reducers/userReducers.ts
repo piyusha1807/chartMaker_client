@@ -10,7 +10,6 @@ import {
 
 const loginInitialState = {
   userInfo: {},
-  loggedIn: false,
   loading: false,
   error: null,
 };
@@ -31,7 +30,6 @@ export const userLoginReducer = (state = loginInitialState, { type, payload }: a
     case USER_LOGIN_SUCCESS:
       return {
         ...state,
-        loggedIn: true,
         loading: false,
         userInfo: payload,
       };

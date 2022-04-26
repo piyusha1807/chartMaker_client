@@ -46,11 +46,11 @@ const ExportPublish = (props: any) => {
   };
 
   const handleBack = () => {
-    navigate('/create/chart/new/config');
+    navigate('/chart/new/config');
   };
 
   const handleNext = () => {
-    navigate('/create/chart/new/upload');
+    navigate('/chart/new/upload');
   };
 
   return (
